@@ -16,11 +16,9 @@ const {validateUser} = require('./schemas/users')
 // Esto no es REST pero mientras tantillo
 let users = []
 users.push({
-    name: "Pepito",
-    last: "Perez",
-    age: 26,
-    id: "1130613425",
-    email: "pperez@u.icesi.edu.co"
+    name: "Gonzalo",
+    last: "Gonzales",
+    id: "1130613425"
 })
 
 app.get('/users/:id', (req, res)=>{
@@ -38,14 +36,14 @@ app.get('/users/:id', (req, res)=>{
 })
 
 
-app.get('/users', (req, res)=>{
-    if(req.query.age){
-        users = users.filter(
-            (user)=>{return user.age == req.query.age}
-        )
-    }
-    res.send({"users":users})
-})
+//app.get('/users', (req, res)=>{
+    //if(req.query.age){
+        //users = users.filter(
+            //(user)=>{return user.name == req.query.age}
+        //)
+    //}
+    //res.send({"users":users})
+//})
 
 app.post('/users', (req, res) => {
 
@@ -61,9 +59,7 @@ app.post('/users', (req, res) => {
     let newUser = {
         name:userValidationResult.data.name,
         last:userValidationResult.data.last,
-        age:userValidationResult.data.age,
-        id:userValidationResult.data.id,
-        email:userValidationResult.data.email
+        id:userValidationResult.data.id
     }
     users.push(newUser)    
     res.status(201).send({"message":"Creación Exitosa!", "user":newUser})
@@ -73,22 +69,20 @@ app.get('/', (req, res)=>{
     res.send("Bienvenidos a la API de usuarios")
 })
 
-app.delete('/users/:id', (req, res)=>{
-    const idToDelete = req.params.id;
-    let indexToDelete = users.findIndex(user=>user.id==idToDelete)
-    let userDeleted = users.splice(indexToDelete, 1)
+//app.delete('/users/:id', (req, res)=>{
+    //const idToDelete = req.params.id;
+    //let indexToDelete = users.findIndex(user=>user.id==idToDelete)
+    //let userDeleted = users.splice(indexToDelete, 1)
     //console.log("user delete: ", userDeleted)
-    res.send("Se eliminó correctamente el usuario con id: " + userDeleted[0].id)
-})
+    //res.send("Se eliminó correctamente el usuario con id: " + userDeleted[0].id)
+//})
 
 app.put('/users/:id',(req, res)=>{
     let index = users.findIndex(user => user.id == req.params.id)
     let newUser = {
         name:req.body.name,
         last:req.body.last,
-        age:req.body.age,
-        id:req.body.id,
-        email:req.body.email
+        id:req.body.id
     }
     users[index]=newUser
     res.send("usuario reemplazado " + newUser )
